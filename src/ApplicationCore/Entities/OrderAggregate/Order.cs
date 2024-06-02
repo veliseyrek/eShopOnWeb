@@ -20,6 +20,7 @@ public class Order : BaseEntity, IAggregateRoot
     }
 
     public string BuyerId { get; private set; }
+    public string Status { get; private set; } = "pending";
     public DateTimeOffset OrderDate { get; private set; } = DateTimeOffset.Now;
     public Address ShipToAddress { get; private set; }
 
@@ -44,4 +45,10 @@ public class Order : BaseEntity, IAggregateRoot
         }
         return total;
     }
+
+    public void SetStatus(string status)
+    {
+        Status = status;
+    }
+
 }

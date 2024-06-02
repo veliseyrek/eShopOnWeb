@@ -1,0 +1,122 @@
+﻿@inject ILogger<Details> Logger
+@inject IJSRuntime JSRuntime
+@inject IOrderService OrderService
+
+@inherits BlazorAdmin.Helpers.BlazorComponent
+
+@namespace BlazorAdmin.Pages.OrderItemPage
+
+<div class="modal @_modalClass" tabindex="-1" role="dialog" style="display:@_modalDisplay">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Details </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ürün Adı</th>
+                            <th scope="col">Adet</th>
+                            <th scope="col">Fiyat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in items)
+                        {
+                            <tr>
+                                <td>@item.ProductName</td>
+                                <td>@item.Units</td>
+                                <td>@item.UnitPrice $</td>
+                            </tr>
+
+                        }
+                       
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="Close">Kapat</button>
+                <button @onclick="SaveClick" class="btn btn-primary">
+                    Siparişi Onayla
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (_showDetailsModal)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+
+@code {
+
+    private List<OrderItem> items = new List<OrderItem>();
+    private Order order = new Order();
+    private int orderid;
+    [Parameter]
+    public EventCallback<string> OnSaveClick { get; set; }
+
+    private string _modalDisplay = "none;";
+    private string _modalClass = "";
+    private bool _showDetailsModal = false;
+
+    public async Task Open(int id)
+    {
+
+        Logger.LogInformation("Now loading... /Order/Details/{Id}", id);
+
+        await new Css(JSRuntime).HideBodyOverflow();
+
+        items = await OrderService.ListByOrderId(id);
+
+        _modalDisplay = "block;";
+        _modalClass = "Show";
+        _showDetailsModal = true;
+
+        orderid = id;
+
+        StateHasChanged();
+    }
+
+    public async Task Close()
+    {
+        await new Css(JSRuntime).ShowBodyOverflow();
+
+        _modalDisplay = "none";
+        _modalClass = "";
+        _showDetailsModal = false;
+    }
+
+    private async Task SaveClick()
+    {
+        // order.Id = orderid;
+        // await OrderService.Edit(order);
+        // await OnSaveClick.InvokeAsync(null);
+        // await Close();
+        // StateHasChanged();
+
+        try
+        {
+            order.Id = orderid;
+            var result = await OrderService.Edit(order);
+
+
+            // await JSRuntime.InvokeVoidAsync("alert", "Sipariş başarıyla onaylandı.");
+            await OnSaveClick.InvokeAsync(null);
+   
+            await Close();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Siparişi onaylarken bir hata oluştu.");
+            await JSRuntime.InvokeVoidAsync("alert", "Bir hata oluştu, lütfen tekrar deneyin.");
+        }
+
+    }
+}

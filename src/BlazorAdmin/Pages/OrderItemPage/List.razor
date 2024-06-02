@@ -1,0 +1,58 @@
+﻿@page "/order"
+@attribute [Authorize(Roles = BlazorShared.Authorization.Constants.Roles.ADMINISTRATORS)]
+@inherits BlazorAdmin.Helpers.BlazorComponent
+@namespace BlazorAdmin.Pages.OrderItemPage
+
+<PageTitle>eShopOnWeb Admin: Order</PageTitle>
+
+
+
+
+<h3>List</h3>
+
+@* <table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Sipariş Veren</th>
+            <th>Tarih</th>
+            <th>Toplam Fiyat</th>
+            <th>Durumu</th>
+        </tr>
+    </thead>
+    <tbody class="cursor-pointer">
+        @foreach (var item in orderItems)
+        {
+        <td>@item.BuyerId</td>
+        <td>@item.OrderDate</td>
+        <td>@item.Total</td>
+        <td>@item.Status</td>
+        }
+    </tbody>
+</table> *@
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Sipariş Veren</th>
+            <th>Tarih</th>
+            <th>Toplam Fiyat</th>
+            <th>Durumu</th>
+        </tr>
+    </thead>
+    <tbody class="cursor-pointer">
+
+        @foreach (var item in orderItems)
+        {
+            <tr @onclick="@(() => DetailsClick(item.Id))">
+                <td>@item.BuyerId</td>
+                <td>@item.OrderDate</td>
+                <td>@item.Total $</td>
+                <td>@item.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<Details  OnSaveClick="ReloadOrders" @ref="DetailsComponent"></Details>
+@* <Details OnSaveClick="ReloadOrders" @ref="DetailsComponent"></Details> *@

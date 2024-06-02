@@ -13,11 +13,11 @@ namespace Microsoft.eShopWeb.PublicApi.CatalogItemEndpoints;
 /// <summary>
 /// Updates a Catalog Item
 /// </summary>
-public class UpdateCatalogItemEndpoint : IEndpoint<IResult, UpdateCatalogItemRequest, IRepository<CatalogItem>>
+public class UpdateOrderEndpoint : IEndpoint<IResult, UpdateCatalogItemRequest, IRepository<CatalogItem>>
 { 
     private readonly IUriComposer _uriComposer;
 
-    public UpdateCatalogItemEndpoint(IUriComposer uriComposer)
+    public UpdateOrderEndpoint(IUriComposer uriComposer)
     {
         _uriComposer = uriComposer;
     }

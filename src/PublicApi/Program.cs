@@ -70,14 +70,26 @@ builder.Services.AddAuthentication(config =>
 });
 
 const string CORS_POLICY = "CorsPolicy";
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(name: CORS_POLICY,
+//        corsPolicyBuilder =>
+//        {
+//            corsPolicyBuilder.WithOrigins(baseUrlConfig!.WebBase.Replace("host.docker.internal", "localhost").TrimEnd('/'));
+//            corsPolicyBuilder.AllowAnyMethod();
+//            corsPolicyBuilder.AllowAnyHeader();
+//        });
+//});
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: CORS_POLICY,
         corsPolicyBuilder =>
         {
-            corsPolicyBuilder.WithOrigins(baseUrlConfig!.WebBase.Replace("host.docker.internal", "localhost").TrimEnd('/'));
-            corsPolicyBuilder.AllowAnyMethod();
-            corsPolicyBuilder.AllowAnyHeader();
+            corsPolicyBuilder.WithOrigins("https://localhost:44315") // İzin vermek istediğiniz kökeni belirtin
+                             .AllowAnyMethod()
+                             .AllowAnyHeader();
         });
 });
 

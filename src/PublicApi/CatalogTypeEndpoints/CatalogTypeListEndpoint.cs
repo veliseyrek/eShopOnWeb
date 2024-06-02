@@ -13,11 +13,11 @@ namespace Microsoft.eShopWeb.PublicApi.CatalogTypeEndpoints;
 /// <summary>
 /// List Catalog Types
 /// </summary>
-public class CatalogTypeListEndpoint : IEndpoint<IResult, IRepository<CatalogType>>
+public class OrderListEndpoint : IEndpoint<IResult, IRepository<CatalogType>>
 {
     private readonly IMapper _mapper;
 
-    public CatalogTypeListEndpoint(IMapper mapper)
+    public OrderListEndpoint(IMapper mapper)
     {
         _mapper = mapper;
     }

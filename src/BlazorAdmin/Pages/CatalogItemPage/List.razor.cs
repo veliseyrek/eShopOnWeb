@@ -11,7 +11,7 @@ public partial class List : BlazorComponent
     [Microsoft.AspNetCore.Components.Inject]
     public ICatalogItemService CatalogItemService { get; set; }
 
-    [Microsoft.AspNetCore.Components.Inject]
+    [Microsoft.AspNetCore.Components.Inject] 
     public ICatalogLookupDataService<CatalogBrand> CatalogBrandService { get; set; }
 
     [Microsoft.AspNetCore.Components.Inject]

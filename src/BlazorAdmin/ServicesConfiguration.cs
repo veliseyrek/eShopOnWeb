@@ -11,10 +11,18 @@ public static class ServicesConfiguration
     {
         services.AddScoped<ICatalogLookupDataService<CatalogBrand>, CachedCatalogLookupDataServiceDecorator<CatalogBrand, CatalogBrandResponse>>();
         services.AddScoped<CatalogLookupDataService<CatalogBrand, CatalogBrandResponse>>();
+
         services.AddScoped<ICatalogLookupDataService<CatalogType>, CachedCatalogLookupDataServiceDecorator<CatalogType, CatalogTypeResponse>>();
         services.AddScoped<CatalogLookupDataService<CatalogType, CatalogTypeResponse>>();
+
+        //services.AddScoped<IOrderLookupDataService<OrderItem>, CachedOrderLookupDataServiceDecorator<OrderItem, OrderResponse>>();
+        //services.AddScoped<CatalogLookupDataService<CatalogType, CatalogTypeResponse>>();
+
         services.AddScoped<ICatalogItemService, CachedCatalogItemServiceDecorator>();
+        services.AddScoped<IOrderService, CachedOrderServiceDecorator>();
+
         services.AddScoped<CatalogItemService>();
+        services.AddScoped<OrderService>();
 
         return services;
     }
