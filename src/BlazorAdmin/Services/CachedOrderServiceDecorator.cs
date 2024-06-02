@@ -32,6 +32,11 @@ public class CachedOrderServiceDecorator : IOrderService
         return result;
     }
 
+    public async Task<Order> GetById(int id)
+    {
+        return (await List()).FirstOrDefault(x => x.Id == id);
+    }
+
     public async Task<List<Order>> List()
     {
         string key = "orders";

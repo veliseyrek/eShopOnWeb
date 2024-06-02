@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BlazorAdmin.Services;
 
-public class OrderService : BlazorShared.Interfaces.IOrderService
+public class OrderService : IOrderService
 {
     private readonly ICatalogLookupDataService<CatalogBrand> _brandService;
     private readonly ICatalogLookupDataService<CatalogType> _typeService;
@@ -32,60 +32,6 @@ public class OrderService : BlazorShared.Interfaces.IOrderService
         _logger = logger;
         _httpClient = httpClient;
     }
-
-    //public async Task<List<OrderViewModel>> GetOrders()
-    //{
-    //    var items = await _orderService.GetOrders();
-
-    //    List<OrderViewModel> orderViewModels = new List<OrderViewModel>();
-
-    //    foreach (var order in items)
-    //    {
-    //        var orderViewModel = new OrderViewModel
-    //        {
-    //            BuyerId = order.BuyerId,
-    //            OrderDate = order.OrderDate,
-    //            Status = order.Status,
-    //            Total = order.Total()
-    //        };
-
-    //        orderViewModels.Add(orderViewModel);
-    //    }
-
-
-    //    return orderViewModels;
-    //}
-    //public async Task<List<Order>> ListPaged(int pageSize)
-    //{
-    //    _logger.LogInformation("Fetching order items from API.");
-
-    //    var brandListTask = _brandService.List();
-    //    var typeListTask = _typeService.List();
-    //    var itemListTask = _httpService.HttpGet<PagedOrderResponse>($"orders?PageSize=10");
-    //    await Task.WhenAll(brandListTask, typeListTask, itemListTask);
-    //    var brands = brandListTask.Result;
-    //    var types = typeListTask.Result;
-    //    var items = itemListTask.Result.Orders;
-    //    return items;
-    //}
-    //public async Task<List<OrderItem>> List()
-    //{
-    //    _logger.LogInformation("Fetching order items from API.");
-    //    var brandListTask = _brandService.List();
-    //    var typeListTask = _typeService.List();
-    //    var itemListTask = _httpService.HttpGet<PagedOrderItemResponse>($"orders");
-    //    // Tüm görevlerin tamamlanmasını bekleyin
-    //    await Task.WhenAll(brandListTask, typeListTask, itemListTask);
-
-    //    //var response = await _httpClient.GetFromJsonAsync<OrderItem>($"https://localhost:5099/api/orders");
-
-    //    // Görevlerin sonuçlarını await kullanarak alın
-    //    var brands = await brandListTask;
-    //    var types = await typeListTask;
-    //    var items = (await itemListTask).OrderItems;
-    //    return items;
-    //}
-
     public async Task<List<Order>> List()
     {
         _logger.LogInformation("Fetching order items from API.");
@@ -132,8 +78,7 @@ public class OrderService : BlazorShared.Interfaces.IOrderService
         {
             _logger.LogWarning("No order items found in API response.");
         }
-        //var name = items[0].BuyerId;
-        //var viewModel = await _mediator.Send(new GetMyOrders(name));
+      
 
         return items;
     }
@@ -158,6 +103,17 @@ public class OrderService : BlazorShared.Interfaces.IOrderService
         return (await _httpService.HttpPut<EditOrderItemResult>("orders", order)).Order;
     }
 
+    public async Task<Order> GetById(int id)
+    {
+        
+        var itemGetTask = _httpService.HttpGet<EditOrderItemResult>($"orders/{id}");
 
+        await Task.WhenAll(itemGetTask);
 
+        var order = await itemGetTask;
+
+        var item = order.Order;
+        
+        return item;
+    }
 }
