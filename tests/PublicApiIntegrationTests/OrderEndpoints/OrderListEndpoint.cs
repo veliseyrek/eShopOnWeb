@@ -11,17 +11,6 @@ namespace PublicApiIntegrationTests.OrderEndpoints;
 [TestClass]
 public class OrderListEndpoint
 {
-    //[TestMethod]
-    //public async Task ReturnsOrders()
-    //{
-    //    var client = ProgramTest.NewClient;
-    //    var response = await client.GetAsync("/api/orders");
-    //    response.EnsureSuccessStatusCode();
-    //    var stringResponse = await response.Content.ReadAsStringAsync();
-    //    var model = stringResponse.FromJson<OrderIndexViewModel>();
-
-    //    Assert.AreEqual(0, model!.Orders.Count());
-    //}
 
     [TestMethod]
     public async Task ReturnsCorrectOrdersGivenPageIndex1()

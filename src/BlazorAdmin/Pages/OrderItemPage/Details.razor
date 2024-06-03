@@ -109,19 +109,10 @@
 
     private async Task SaveClick()
     {
-        // order.Id = orderid;
-        // await OrderService.Edit(order);
-        // await OnSaveClick.InvokeAsync(null);
-        // await Close();
-        // StateHasChanged();
-
         try
         {
             order.Id = orderid;
             var result = await OrderService.Edit(order);
-
-
-            // await JSRuntime.InvokeVoidAsync("alert", "Sipariş başarıyla onaylandı.");
             await OnSaveClick.InvokeAsync(null);
    
             await Close();
